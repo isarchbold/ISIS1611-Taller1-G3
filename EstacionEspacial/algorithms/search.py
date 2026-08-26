@@ -83,9 +83,29 @@ def uniformCostSearch(problem: SearchProblem):
     """
     Search the node of least total cost first.
     """
-
+    #Se reusa codigo de data structures de EDA de dijkstra 
     # TODO: Add your code here
-    utils.raiseNotDefined()
+    nodos_cola= utils.PriorityQueue()
+    nodos_cola.push((problem.getStartState(), [], 0), 0)
+    
+    visitados = set() #por complejidad 
+    
+    while not nodos_cola.isEmpty():
+        estadoActual, acciones, costoAcumulado = nodos_cola.pop()
+        
+        if problem.isGoalState(estadoActual):
+            return acciones
+        if estadoActual not in visitados:
+            visitados.add(estadoActual)
+            for sucesor, accion, costo in problem.getSuccessors(estadoActual):
+                if sucesor not in visitados:
+                    nuevoCosto = costoAcumulado + costo
+                    nodos_cola.push((sucesor, acciones + [accion], nuevoCosto), nuevoCosto)
+        
+        
+        
+    
+    return []
 
 
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
